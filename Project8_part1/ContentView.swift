@@ -6,18 +6,33 @@
 //
 
 import SwiftUI
-
+//カスタムテキスト
+struct CustomText: View {
+    let text: String
+    
+    var body: some View {
+        Text(text)
+    }
+    
+    init(_ text: String) {
+        print("Creating a new CustomText")
+        self.text = text
+    }
+}
 struct ContentView: View {
     var body: some View {
-        //画像の内容も変化させたい SwiftUIでの新たなやり方
-        GeometryReader { geo in
-            Image("orizuru")
-                .resizable()//good スケールを変えてみる
-                .scaledToFit()
-                .frame(width: geo.size.width * 0.8)//左上ではなく中央に
-                .frame(width: geo.size.width, height: geo.size.height)
+        //スクロールビュー
+        ScrollView(.horizontal) {
+            //LaxyStackにすれば、その都度呼び出される
+            //水平にする場合
+            LazyHStack (spacing: 10){
+                ForEach(0..<100) {
+                    CustomText("Item \($0)")
+                        .font(.title)
+                }
+            }
+            .frame(maxWidth: .infinity)
         }
-       
     }
 }
 
