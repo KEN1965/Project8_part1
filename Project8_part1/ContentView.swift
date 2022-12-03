@@ -7,21 +7,35 @@
 
 import SwiftUI
 
+struct User: Codable {
+    let name: String
+    let address: Adress
+}
+
+struct Adress: Codable {
+    let street: String
+    let city: String
+}
+
 struct ContentView: View {
+    //複雑なJSONのデコード！！　　やっていきやしょう(๑>◡<๑)
+    
     var body: some View {
-        //ナビゲーションビュー
-        NavigationView {
-            // リストで表示 ナビゲーションリンクを消してみるとただのリンクに
-            //新しいビューを作成する場合、SheetかNavigationLinkどちらにするかよく検討しいよう
+        Button("Decode JSON") {
+            let input = """
+            {
+            "name": "Taylor Swift",
+            "address": {
+                "street": "555, Taylor Sift Avenu",
+                "city": "Nashville"
+            }
+            }
+            """
+            //デコードしていきます
+            let data = Data(input.utf8)
             
-            List(0..<10) { row in
-//                NavigationLink {
-//                    Text("Row \(row)")
-//                } label: {
-                    Text("Row Number \(row)")
-                        .padding()
-//                }
-                .navigationTitle("SwiftUI")
+            if let user = try? JSONDecoder().decode(User.self, from: data) {
+                print(user.address.street)
             }
         }
     }
