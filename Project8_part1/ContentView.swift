@@ -6,32 +6,23 @@
 //
 
 import SwiftUI
-//カスタムテキスト
-struct CustomText: View {
-    let text: String
-    
-    var body: some View {
-        Text(text)
-    }
-    
-    init(_ text: String) {
-        print("Creating a new CustomText")
-        self.text = text
-    }
-}
+
 struct ContentView: View {
     var body: some View {
-        //スクロールビュー
-        ScrollView(.horizontal) {
-            //LaxyStackにすれば、その都度呼び出される
-            //水平にする場合
-            LazyHStack (spacing: 10){
-                ForEach(0..<100) {
-                    CustomText("Item \($0)")
-                        .font(.title)
-                }
+        //ナビゲーションビュー
+        NavigationView {
+            // リストで表示 ナビゲーションリンクを消してみるとただのリンクに
+            //新しいビューを作成する場合、SheetかNavigationLinkどちらにするかよく検討しいよう
+            
+            List(0..<10) { row in
+//                NavigationLink {
+//                    Text("Row \(row)")
+//                } label: {
+                    Text("Row Number \(row)")
+                        .padding()
+//                }
+                .navigationTitle("SwiftUI")
             }
-            .frame(maxWidth: .infinity)
         }
     }
 }
