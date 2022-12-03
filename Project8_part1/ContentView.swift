@@ -7,35 +7,18 @@
 
 import SwiftUI
 
-struct User: Codable {
-    let name: String
-    let address: Adress
-}
-
-struct Adress: Codable {
-    let street: String
-    let city: String
-}
-
 struct ContentView: View {
-    //複雑なJSONのデコード！！　　やっていきやしょう(๑>◡<๑)
-    
+    //複数のレイアウトの表示　　やっていきやしょう(๑>◡<๑)
+    let layout = [ //80で多くのレイアウトを表示
+        GridItem(.adaptive(minimum:80, maximum:120)),
+    ]
     var body: some View {
-        Button("Decode JSON") {
-            let input = """
-            {
-            "name": "Taylor Swift",
-            "address": {
-                "street": "555, Taylor Sift Avenu",
-                "city": "Nashville"
-            }
-            }
-            """
-            //デコードしていきます
-            let data = Data(input.utf8)
-            
-            if let user = try? JSONDecoder().decode(User.self, from: data) {
-                print(user.address.street)
+        //横スクロール
+        ScrollView(.horizontal) {
+            LazyHGrid(rows: layout) {
+                ForEach(0..<100) {
+                    Text("Item \($0)")
+                }
             }
         }
     }
